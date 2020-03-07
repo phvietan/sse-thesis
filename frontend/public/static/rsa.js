@@ -57,6 +57,7 @@ function pkcs1pad2(s,n) {
   }
   ba[--n] = 2;
   ba[--n] = 0;
+  console.log(ba)
   return new BigInteger(ba);
 }
 

@@ -13,16 +13,15 @@ class Home extends Component {
   }
 
   async componentDidMount() {
-    const key = RSAHandler.GenerateKey(10, 10);
-    console.log(key);
+    const key = new RSAHandler();
+    const plaintext = 'Hello world';
+    const encrypted = key.encrypt(plaintext);
+    console.log(encrypted);
+    const decrypted = key.decrypt(encrypted);
+    console.log(decrypted);
   }
 
   render() {
-    const key = AESHandler.GenerateKey()
-    const plaintext = 'Hello world';
-    const encrypted = AESHandler.Encrypt(key, plaintext);
-    const decrypted = AESHandler.Decrypt(key, encrypted);
-
     return (
       <div>
         <h1>

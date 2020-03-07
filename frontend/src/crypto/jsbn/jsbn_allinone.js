@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 // Copyright (c) 2005  Tom Wu
 // All Rights Reserved.
 // See "LICENSE" for details.
@@ -1427,8 +1429,18 @@ function RSADoPublic(x) {
 }
 
 // Return the PKCS#1 RSA encryption of "text" as an even-length hex string
+// function RSAEncrypt(text) {
+//   var m = pkcs1pad2(text,(this.n.bitLength()+7)>>3);
+//   if(m == null) return null;
+//   var c = this.doPublic(m);
+//   if(c == null) return null;
+//   var h = c.toString(16);
+//   if((h.length & 1) == 0) return h; else return "0" + h;
+// }
+
+// Return raw RSA encrypt
 function RSAEncrypt(text) {
-  var m = pkcs1pad2(text,(this.n.bitLength()+7)>>3);
+  var m = new BigInteger(text, 16);
   if(m == null) return null;
   var c = this.doPublic(m);
   if(c == null) return null;
@@ -1559,11 +1571,18 @@ function RSADoPrivate(x) {
 
 // Return the PKCS#1 RSA decryption of "ctext".
 // "ctext" is an even-length hex string and the output is a plain string.
+// function RSADecrypt(ctext) {
+//   var c = parseBigInt(ctext, 16);
+//   var m = this.doPrivate(c);
+//   if(m == null) return null;
+//   return pkcs1unpad2(m, (this.n.bitLength()+7)>>3);
+// }
+
+// Return the raw RSA Decryption
 function RSADecrypt(ctext) {
   var c = parseBigInt(ctext, 16);
   var m = this.doPrivate(c);
-  if(m == null) return null;
-  return pkcs1unpad2(m, (this.n.bitLength()+7)>>3);
+  return m
 }
 
 // Return the PKCS#1 RSA decryption of "ctext".
