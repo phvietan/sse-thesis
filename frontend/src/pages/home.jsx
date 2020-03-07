@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { AESHandler } from '../crypto/aeshandler.js';
-import { RSAHandler } from '../crypto/rsahandler.js';
+
+const utils = require('../controller/controller_storage');
 
 // This App here is for routing purposes
 class Home extends Component {
@@ -13,12 +13,12 @@ class Home extends Component {
   }
 
   async componentDidMount() {
-    const key = new RSAHandler();
-    const plaintext = 'Hello world';
-    const encrypted = key.encrypt(plaintext);
-    console.log(encrypted);
-    const decrypted = key.decrypt(encrypted);
-    console.log(decrypted);
+    const { aesKey, rsaKey1, rsaKey2, firstTime } = utils.getKeys();
+    console.log(aesKey);
+    console.log(rsaKey1);
+    console.log(rsaKey2);
+    console.log(firstTime);
+    console.log(firstTime);
   }
 
   render() {

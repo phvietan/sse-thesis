@@ -19,11 +19,11 @@ class AESHandler {
     let encrypted = cipher.update(plaintext, 'utf8', 'hex');
     encrypted += cipher.final('hex');
 
-    return util.toHexString(iv) + encrypted
+    return util.bufferToHex(iv) + encrypted
   }
 
   static Decrypt(key, ciphertext) {
-    const iv = util.fromHexString(ciphertext.slice(0, IV_HEX_LENGTH))
+    const iv = util.hexToBuffer(ciphertext.slice(0, IV_HEX_LENGTH))
     const c = ciphertext.slice(IV_HEX_LENGTH, ciphertext.length)
 
     let decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);

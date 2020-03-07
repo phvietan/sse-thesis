@@ -16,5 +16,9 @@ test('aes handler', () => {
 });
 
 test('rsa handler', () => {
-  // const { publicKey, privateKey } = RSAHandler.GenerateKey();
+  const key = new RSAHandler();
+  const plaintext = 'Hello world';
+  const ciphertext = key.encrypt(plaintext);
+  const decrypted = key.decrypt(ciphertext);
+  expect(plaintext).toBe(decrypted);
 });
