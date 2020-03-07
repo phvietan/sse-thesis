@@ -1,15 +1,28 @@
 import React, { Component } from 'react';
-import { CryptoHandler } from '../cryptohandler/crypto'
+import { AESHandler } from '../crypto/aeshandler.js';
+import { RSAHandler } from '../crypto/rsahandler.js';
 
 // This App here is for routing purposes
 class Home extends Component {
-  render() {
-    const key = CryptoHandler.GenerateRandomAESKey()
-    const plaintext = 'Hello world';
-    const encrypted = CryptoHandler.SymmetricEncrypt(key, plaintext)
-    const decrypted = CryptoHandler.SymmetricDecrypt(key, encrypted)
+  constructor(props) {
+    super(props);
+    this.state = {
+      publicKey: '',
+      privateKey: '',
+    }
+  }
 
-    CryptoHandler.GenerateRandomAESKey()
+  async componentDidMount() {
+    const key = RSAHandler.GenerateKey(10, 10);
+    console.log(key);
+  }
+
+  render() {
+    const key = AESHandler.GenerateKey()
+    const plaintext = 'Hello world';
+    const encrypted = AESHandler.Encrypt(key, plaintext);
+    const decrypted = AESHandler.Decrypt(key, encrypted);
+
     return (
       <div>
         <h1>
