@@ -1,0 +1,59 @@
+#menubar {
+  width: 100%;
+  background-color: cadetblue;
+}
+
+#logo {
+  height: 30px;
+  width: 40px;
+  margin-left: 40%;
+  padding-top: 15px;
+  cursor: pointer;
+}
+
+.searchbar {
+  margin-top: 10px;
+  height: 25px;
+  padding: 5px;
+  padding-left: 15px;
+  font-size: 1rem;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 4px;
+  border-color: cadetblue;
+  width: 60%;
+}
+
+.searchbar[type=text]:focus {
+  outline: 0;
+  border: 2px solid #7185E5;
+}
+
+.menubarbutton {
+  height: 100%;
+  margin-top: 5px;
+  background-color: cadetblue;
+  border: 1px solid cadetblue;
+}
+
+.menubarbutton span {
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 1rem;
+}
+
+.divider {
+  display: inline;
+  border-left: 1px solid #497a7b;
+}
+
+.menubarbutton:hover {
+  cursor: pointer;
+  border-bottom: 1px solid black;
+}
+
+.menubarbutton:focus {
+  outline: 0;
+  cursor: pointer;
+  border-bottom: 1.5px solid black;
+}

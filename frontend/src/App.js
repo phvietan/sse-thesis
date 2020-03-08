@@ -1,4 +1,5 @@
 import Home from './pages/home';
+import Upload from './pages/upload';
 import Page404 from './pages/page404';
 
 import React, { Component } from 'react';
@@ -11,6 +12,7 @@ class App extends Component {
       <BrowserRouter>
         <Switch>
           <Route exact path='/' component={Home}/>
+          <Route exact path='/upload' component={Upload}/>
           <Route exact path='/*' component={Page404}/>
         </Switch>
       </BrowserRouter>
