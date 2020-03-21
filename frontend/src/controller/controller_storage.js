@@ -1,7 +1,7 @@
 const { RSAHandler } = require('../crypto/rsahandler');
 const { AESHandler } = require('../crypto/aeshandler');
 const storage = require('../storage/storage');
-const util = require('../crypto/util');
+const util = require('./util');
 
 function aesFromStorage(key) {
   return util.hexToBuffer(key);
@@ -14,6 +14,7 @@ function aesToStorage(key) {
 function rsaToStorage(key) {
   const { rsa } = key;
   return {
+    // To Hex
     n: rsa.n.toString(16),
     e: rsa.e.toString(16),
     d: rsa.d.toString(16),

@@ -1,5 +1,5 @@
 const jsbn = require("./jsbn/jsbn_allinone");
-const util = require("./util");
+const util = require("../controller/util");
 
 function isValidRsaObject(obj) {
   return obj && obj.n && obj.e && obj.d && obj.p && obj.q && obj.dmp1 && obj.dmq1 && obj.coeff;
@@ -34,6 +34,11 @@ class RSAHandler {
     return util.hexToString(m.toString(16));
   }
 
+  exportPublicKey() {
+    const n = this.rsa.n.toString(16);
+    const e = this.rsa.e.toString(16);
+    return { n, e }
+  }
 }
 
 module.exports = {

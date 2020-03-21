@@ -1,4 +1,4 @@
-const util = require('./util');
+const util = require('../controller/util');
 const crypto = require('crypto');
 
 const IV_LENGTH = 16;
@@ -19,7 +19,7 @@ class AESHandler {
     let encrypted = cipher.update(plaintext, 'utf8', 'hex');
     encrypted += cipher.final('hex');
 
-    return util.bufferToHex(iv) + encrypted
+    return util.bufferToHex(iv) + encrypted;
   }
 
   static Decrypt(key, ciphertext) {

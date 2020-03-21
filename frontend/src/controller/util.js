@@ -1,5 +1,5 @@
 function hexToBuffer(hexString) {
-  return new Uint8Array(hexString.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
+  return Buffer.from(hexString, 'hex')
 }
 
 function bufferToHex(b) {
@@ -19,10 +19,19 @@ function hexToString(str1) {
 	return str;
 }
 
+function hexToBase64(str) {
+  return Buffer.from(str, 'hex').toString('base64')
+}
+
+function base64ToHex(str) {
+  return Buffer.from(str, 'base64').toString('hex')
+}
 
 module.exports = {
   bufferToHex,
   hexToBuffer,
   stringToHex,
   hexToString,
+  hexToBase64,
+  base64ToHex,
 }
