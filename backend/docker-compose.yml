@@ -1,0 +1,27 @@
+version: '3'
+services:
+  backend:
+    build: .
+    restart: on-failure
+    environment:
+      - WORK_DIR=${WORK_DIR}
+      - BACKEND_PORT=${BACKEND_PORT}
+    depends_on: 
+      - db
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+
+  db:
+    image: postgres:12.2-alpine
+    restart: on-failure
+    volumes:
+      - ./data:/var/lib/postgresql/data/ # persist data even if container shuts down
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    ports:
+      - "${DATABASE_PORT}:5432"
+    
+volumes:
+  data:
