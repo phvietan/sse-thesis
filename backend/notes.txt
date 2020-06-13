@@ -1,0 +1,8 @@
+Migrate:
+  docker-compose exec backend knex --knexfile=./database/knexfile.js migrate:make <name>
+
+Migrate to latest:
+  docker-compose exec backend knex --knexfile=./database/knexfile.js migrate:latest
+
+Migrate undo:
+  docker-compose exec backend knex --knexfile=./database/knexfile.js migrate:down

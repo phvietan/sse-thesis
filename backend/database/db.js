@@ -5,7 +5,7 @@ const { DATABASE_USER, DATABASE_PASSWORD, DATABASE_NAME, DATABASE_PORT } = proce
 const knex = require('knex')({
   client: 'pg',
   connection: {
-    host: 'localhost',
+    host: '127.0.0.1',
     port: DATABASE_PORT,
     user: DATABASE_USER,
     password: DATABASE_PASSWORD,

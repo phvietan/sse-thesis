@@ -1,15 +1,20 @@
 version: '3'
 services:
   backend:
-    build: .
+    build:
+      args:
+        - WORK_DIR=${WORK_DIR}
+        - BACKEND_PORT=${BACKEND_PORT}
+      context: .
     restart: on-failure
-    environment:
-      - WORK_DIR=${WORK_DIR}
-      - BACKEND_PORT=${BACKEND_PORT}
-    depends_on: 
+    env_file:
+      - .env
+    depends_on:
       - db
     ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"
+    volumes:
+      - .:${WORK_DIR} # For maintaining code
 
   db:
     image: postgres:12.2-alpine
@@ -22,6 +27,3 @@ services:
       POSTGRES_DB: ${DATABASE_NAME}
     ports:
       - "${DATABASE_PORT}:5432"
-    
-volumes:
-  data:
