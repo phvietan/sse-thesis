@@ -1,17 +1,42 @@
 require('dotenv').config();
-const express = require('express');
 const cors = require('cors');
+const express = require('express');
+const bodyParser = require('body-parser');
+const middlewares = require('./src/middlewares');
+
+const BACKEND_PORT = process.env.BACKEND_PORT || 8000;
+
 const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }))
+// app.use(cors({origin: `http://127.0.0.1:${FRONTEND_PORT}`}));
+app.use(cors({origin: '*'}));
 
-const { FRONTEND_PORT, BACKEND_PORT } = process.env;
+function setupMiddlewares() {
+  app.use(middlewares.filterNonString);
+  app.use(middlewares.createClientObject);
+}
 
-app.use(cors({origin: `http://127.0.0.1:${FRONTEND_PORT}`}));
+function setupApiEndpoints() {
+  const apiUser = require('./src/api/user');
+  const apiUpload = require('./src/api/upload');
+  const apiEndpoints = {
+    user: '/api/user',
+    upload: '/api/upload',
+  };
+  app.use(apiEndpoints.user, apiUser);
+  app.use(apiEndpoints.upload, apiUpload);
+}
 
-app.get('/list', (req, res) => {
-  res.send('Hello World!');
-});
+async function main() {
+  setupMiddlewares();
+  setupApiEndpoints();
+  app.use(middlewares.handleNoneEndpoints);
+  app.use(middlewares.handleResult);
+  app.listen(
+    BACKEND_PORT,
+    () => console.log(`Example app listening at http://localhost:${BACKEND_PORT}`),
+  );
+}
 
-app.listen(
-  BACKEND_PORT,
-  () => console.log(`Example app listening at http://localhost:${BACKEND_PORT}`),
-);
+main();

@@ -2,35 +2,56 @@ import React, { Component } from 'react';
 import { AESHandler } from '../crypto/aeshandler.js';
 import '../css/uploadbar.css';
 
-const storageController = require('../controller/controller_storage');
+const util = require('../controller/util');
+const { transformBatch } = require('../controller/transformer');
+const { getKeys } = require('../controller/controller_storage');
+const { requestFiles, uploadFile } = require('../controller/protocol');
+
+async function getNumberOfFile() {
+  const response = await requestFiles();
+  const { result: files } = response; 
+  return files.length;
+}
 
 class Uploadbar extends Component {
   constructor(props) {
     super(props);
-    const { aesKey, rsaKey1, rsaKey2, firstTime } = storageController.getKeys();
+    const { aesKey, rsaKey1, rsaKey2, firstTime } = getKeys();
     this.state = {
       aesKey,
       rsaKey1,
       rsaKey2,
       firstTime,
       instruction: "",
-    }
+    };
   }
 
-  encryptFile() {
-    // const fileInput = document.getElementById('file');
-    // const file = fileInput.files[0]
-    // const reader = new FileReader();
+  createEncryptedFiles(content, n) {
+    // Get EF file
+    const EFHex = AESHandler.Encrypt(this.state.aesKey, content);
+    const EF = util.hexToBase64(EFHex);
+  
+    // Get I file
+    const I = transformBatch(content, n, this.state.rsaKey1, this.state.rsaKey2, this.state.aesKey);
+    return { EF, I };
+  }
+  
+  async encryptFile() {
+    const numFiles = await getNumberOfFile();
+    const n = numFiles + 1;
 
-    // const data = new FormData();
-    // reader.onload = function(e) {
-    //   const ciphertext = AESHandler.Encrypt(this.state.aesKey, e.target.result);
-    //   data.append('file', ciphertext);
-    //   data.append('rsa_n1', this.state.rsaKey1);
-      
-    //   console.log(ciphertext)
-    // };
-    // reader.readAsDataURL(file);
+    const fileInput = document.getElementById('file');
+
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const contentBase64 = e.target.result.split(',')[1];
+      const content = util.base64Decode(contentBase64);
+
+      const body = this.createEncryptedFiles(content, n);
+      const response = await uploadFile(body);
+      console.log(response);
+    };
+    reader.readAsDataURL(fileInput.files[0]);
     console.log(this.state.rsaKey1.exportPublicKey());
   }
 

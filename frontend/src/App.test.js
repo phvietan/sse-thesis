@@ -18,9 +18,18 @@ test('aes handler', () => {
 test('rsa handler', () => {
   const key = new RSAHandler();
   const plaintext = 'Hello world';
-  const ciphertext = key.encrypt(plaintext);
+  const hexedPlaintext = util.stringToHex(plaintext);
+  const ciphertext = key.encrypt(hexedPlaintext);
   const decrypted = key.decrypt(ciphertext);
-  expect(plaintext).toBe(decrypted);
+
+  console.log(hexedPlaintext);
+  console.log(decrypted);
+
+  expect(hexedPlaintext).toBe(decrypted);
+  
+  const revert = key.decrypt(hexedPlaintext);
+  const normal = key.encrypt(revert);
+  expect(hexedPlaintext).toBe(normal);
 });
 
 test('conversionHexToBuffer', () => {
@@ -32,15 +41,14 @@ test('conversionHexToBuffer', () => {
   expect(buf[0]).toBe(10 * 16 + 10);
   expect(buf[1]).toBe(11 * 16 + 10);
 
-  // TODO
   const str2 = 'aabcc';
   const buf2 = util.hexToBuffer(str2)
   expect(buf2.length).toBe(3);
   
   // a = 10; b = 11; c = 12
-  expect(buf2[0]).toBe(10 * 16 + 10);
-  expect(buf2[1]).toBe(11 * 16 + 12);
-  expect(buf2[2]).toBe(12);
+  expect(buf2[0]).toBe(10);
+  expect(buf2[1]).toBe(10 * 16 + 11);
+  expect(buf2[2]).toBe(12 * 16 + 12);
 
   const str_again = util.bufferToHex(buf);
   expect(str).toBe(str_again);

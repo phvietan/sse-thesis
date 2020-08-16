@@ -50,6 +50,15 @@ function getKeys() {
   }
 }
 
+function getPublicKeys() {
+  const { rsaKey1, rsaKey2 } = getKeys();
+  return {
+    ul: rsaKey1.exportPublicKey(),
+    ur: rsaKey2.exportPublicKey(),
+  };
+}
+
 module.exports = {
   getKeys,
+  getPublicKeys,
 }

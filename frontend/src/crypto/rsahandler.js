@@ -1,5 +1,4 @@
 const jsbn = require("./jsbn/jsbn_allinone");
-const util = require("../controller/util");
 
 function isValidRsaObject(obj) {
   return obj && obj.n && obj.e && obj.d && obj.p && obj.q && obj.dmp1 && obj.dmq1 && obj.coeff;
@@ -20,18 +19,13 @@ class RSAHandler {
     }
   }
 
-  // message must be utf-8
-  // returned ciphertext is hex
-  encrypt(message) {
-    const hexedMessage = util.stringToHex(message)
+  encrypt(hexedMessage) {
     return this.rsa.encrypt(hexedMessage);
   }
 
-  // ciphertext must be hex
-  // message will be utf-8
   decrypt(ciphertext) {
     const m = this.rsa.decrypt(ciphertext);
-    return util.hexToString(m.toString(16));
+    return m.toString(16);
   }
 
   exportPublicKey() {

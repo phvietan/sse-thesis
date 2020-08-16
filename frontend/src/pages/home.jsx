@@ -1,29 +1,27 @@
 import React, { Component } from 'react';
 import Menubar from '../components/menubar';
 
-const storageController = require('../controller/controller_storage');
+const { requestFiles } = require('../controller/protocol');
 
 // This App here is for routing purposes
 class Home extends Component {
   constructor(props) {
     super(props);
-    const { aesKey, rsaKey1, rsaKey2, firstTime } = storageController.getKeys();
-
     this.state = {
-      aesKey,
-      rsaKey1,
-      rsaKey2,
-      firstTime,
-    }
+      files: [],
+    };
   }
 
-  // async componentDidMount() {
-  //   console.log(aesKey);
-  //   console.log(rsaKey1);
-  //   console.log(rsaKey2);
-  //   console.log(firstTime);
-  //   console.log(firstTime);
-  // }
+  async updateFilesState() {
+    const response = await requestFiles();
+    const { result: files } = response; 
+    this.setState({ files });
+  }
+
+  async componentDidMount() {
+    await this.updateFilesState();
+    setInterval(async() => { await this.updateFilesState(); }, 1000 * 30);
+  }
 
   render() {
     return (
@@ -32,9 +30,11 @@ class Home extends Component {
           history={this.props.history}
         />
 
-        <h1>
-          Hello world
-        </h1>
+        <div id="main-content">
+          <h1>
+            Has uploaded: {this.state.files.length} files
+          </h1>
+        </div>
       </div>
     );
   }

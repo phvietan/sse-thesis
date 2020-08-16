@@ -8,14 +8,6 @@ const storageController = require('../controller/controller_storage');
 class Upload extends Component {
   constructor(props) {
     super(props);
-    const { aesKey, rsaKey1, rsaKey2, firstTime } = storageController.getKeys();
-    this.state = {
-      aesKey,
-      rsaKey1,
-      rsaKey2,
-      firstTime,
-      instruction: "",
-    }
   }
 
   render() {

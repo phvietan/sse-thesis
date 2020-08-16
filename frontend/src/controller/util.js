@@ -1,4 +1,5 @@
 function hexToBuffer(hexString) {
+  if (hexString.length % 2 === 1) hexString = '0' + hexString;
   return Buffer.from(hexString, 'hex')
 }
 
@@ -27,6 +28,18 @@ function base64ToHex(str) {
   return Buffer.from(str, 'base64').toString('hex')
 }
 
+function base64Decode(val) {
+  try {
+    return atob(val);
+  } catch (_) {
+    return "";
+  }
+}
+
+const isString = (value) => (
+  typeof value === 'string' || value instanceof String
+);
+
 module.exports = {
   bufferToHex,
   hexToBuffer,
@@ -34,4 +47,6 @@ module.exports = {
   hexToString,
   hexToBase64,
   base64ToHex,
+  base64Decode,
+  isString,
 }

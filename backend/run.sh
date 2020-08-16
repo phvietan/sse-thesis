@@ -6,5 +6,7 @@ then
 fi
 
 rm -rf data/*
+docker-compose stop
 docker-compose build
-docker-compose up
+docker-compose up -d
+# docker-compose exec backend knex --knexfile=./database/knexfile.js migrate:latest
