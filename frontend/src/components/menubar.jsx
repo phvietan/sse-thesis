@@ -8,6 +8,10 @@ class Menubar extends Component {
     this.props.history.push('/upload');
   }
 
+  clickSearch() {
+    this.props.history.push('/search');
+  }
+
   clickLogo() {
     this.props.history.push('/');
   }
@@ -18,18 +22,22 @@ class Menubar extends Component {
         <div id="menubar">
           <Grid container spacing={3}>
             <Grid item xs={2}>
+              <img src="/thesis.png" alt="logo" id="logo-name" onClick={this.clickLogo.bind(this)}/>
+            </Grid>
+            <Grid item xs={2}>
               <img src="/voidlogo.png" alt="logo" id="logo" onClick={this.clickLogo.bind(this)}/>
             </Grid>
-            <Grid item xs={5}>
-              <input type="text" placeholder="Search" className="searchbar"/>
+            
+            <Grid item xs={1}>
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={1}>
+              <button className="menubarbutton" onClick={this.clickSearch.bind(this)}>
+                <span>Search</span>
+              </button>
+            </Grid>
+            <Grid item xs={1}>
               <button className="menubarbutton" onClick={this.clickUpload.bind(this)}>
                 <span>Upload</span>
-              </button>
-              <div className="divider"></div>
-              <button className="menubarbutton">
-                <span>Profile</span>
               </button>
             </Grid>
           </Grid>

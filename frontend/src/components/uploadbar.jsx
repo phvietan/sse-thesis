@@ -23,6 +23,10 @@ class Uploadbar extends Component {
       rsaKey2,
       firstTime,
       instruction: "",
+
+      fileName: "",
+      preview_file: "",
+      preview_ciphertext: "",
     };
   }
 
@@ -37,28 +41,58 @@ class Uploadbar extends Component {
   }
   
   async encryptFile() {
+    const fileInput = document.getElementById('file');
+
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const { EF, I } = this.state;
+      const response = await uploadFile({ EF, I });
+      console.log(response);
+      // this.props.redirectHome();
+    };
+    reader.readAsDataURL(fileInput.files[0]);
+  }
+
+  async selectedFile(e) {
+    const fileInput = e.target.files[0];
+    const fileName = fileInput.name;
+
     const numFiles = await getNumberOfFile();
     const n = numFiles + 1;
-
-    const fileInput = document.getElementById('file');
 
     const reader = new FileReader();
     reader.onload = async (e) => {
       const contentBase64 = e.target.result.split(',')[1];
       const content = util.base64Decode(contentBase64);
 
-      const body = this.createEncryptedFiles(content, n);
-      const response = await uploadFile(body);
-      console.log(response);
+      const { EF, I } = this.createEncryptedFiles(content, n);
+      this.setState({ 
+        fileName,
+        EF, I,
+        preview_file: content,
+        preview_ciphertext: EF,
+      });
     };
-    reader.readAsDataURL(fileInput.files[0]);
-    console.log(this.state.rsaKey1.exportPublicKey());
+    reader.readAsDataURL(fileInput);
   }
 
   render() {
     return (
       <div>
-        <input type="file" id="file"/>
+        <label>
+            <h2 id="upload-file-button">Choose file</h2>
+            <input type="file" id="file" onChange={this.selectedFile.bind(this)}/>
+        </label>
+        <h3>Choosing: {this.state.fileName === '' ? "Have not chose file" : this.state.fileName}</h3>
+
+        <h3>Preview file content</h3>
+        <textarea className="view-content encrypted-content" value={this.state.preview_file}>
+        </textarea>
+
+        <h3>Preview encrypted file content</h3>
+        <textarea className="view-content encrypted-content" value={this.state.preview_ciphertext}>
+        </textarea>
+
         <br/>
         <button onClick={this.encryptFile.bind(this)}>Encrypt and upload file</button>
       </div>

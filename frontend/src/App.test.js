@@ -11,6 +11,10 @@ test('aes handler', () => {
   const key = AESHandler.GenerateKey();
   const plaintext = "Some plaintext";
   const encrypted = AESHandler.Encrypt(key, plaintext);
+  
+  console.log(encrypted);
+  console.log(encrypted);
+
   const decrypted = AESHandler.Decrypt(key, encrypted);
   expect(plaintext).toBe(decrypted);
 });
@@ -21,9 +25,6 @@ test('rsa handler', () => {
   const hexedPlaintext = util.stringToHex(plaintext);
   const ciphertext = key.encrypt(hexedPlaintext);
   const decrypted = key.decrypt(ciphertext);
-
-  console.log(hexedPlaintext);
-  console.log(decrypted);
 
   expect(hexedPlaintext).toBe(decrypted);
   

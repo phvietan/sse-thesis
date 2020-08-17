@@ -5,7 +5,7 @@ const ApiResult = require('../apiresult');
 const router = express.Router();
 
 router.post('/', async (req, res, next) => {
-    console.log("user api")
+    console.log("number of files api")
 
     const id = res.locals.client.getId();
     const files = await db.getFilesFromUser(id);

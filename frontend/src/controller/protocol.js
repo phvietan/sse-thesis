@@ -30,6 +30,10 @@ async function request(method, path, body = {}) {
     }
 }
 
+async function viewFile(fileHash) {
+    return request("POST", "/api/file", { fileHash });
+}
+
 async function requestFiles() {
     return request("POST", "/api/user")
 }
@@ -38,12 +42,18 @@ async function uploadFile(body) {
     return request("POST", "/api/upload", body)
 }
 
+async function deleteFile(body) {
+    return request("POST", "/api/delete", body)
+}
+
 async function requestSearch(body) {
     return request("POST", "/api/search", body)
 }
 
 module.exports = {
-    requestFiles,
+    viewFile,
+    deleteFile,
     uploadFile,
+    requestFiles,
     requestSearch,
 };

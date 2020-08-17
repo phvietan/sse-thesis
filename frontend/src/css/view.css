@@ -1,0 +1,38 @@
+#main-content {
+    padding: 30px;
+    padding-left: 50px;
+}
+
+.view-title {
+    display: inline;
+}
+
+.view-id {
+    margin-left: 20px;
+}
+
+.view-title-button {
+    margin-left: 50px !important;
+    color: red !important;
+    padding: 10px !important;
+}
+
+.view-content {
+    resize: none;
+    background-color: rgb(230, 230, 230);
+    font-size: 15px;
+    padding: 15px;
+    width: 90%;
+}
+
+.encrypted-content {
+    height: 175px;
+}
+
+.decrypted-content {
+    height: 400px;
+}
+
+.view-error {
+    color: red;
+}

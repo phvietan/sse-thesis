@@ -1,31 +1,37 @@
-const db = require('../db');
-
+const fs = require('fs');
+const path = require('path');
 const express = require('express');
+const Promise = require('bluebird');
+
+const db = require('../db');
+const helper = require('../helper');
 const ApiResult = require('../apiresult');
+
 const router = express.Router();
-
-router.post('/', async (req, _, next) => {
+router.post('/', async (req, res, next) => {
     const { EF, I } = req.body;
-    const userHash = res.locals.client.getId();
-
     try {
-        const trxResult = await db.db.transaction(async (trx) => {
-            const n = db.getNumberOfFilesFromUser(userHash);
-            const fileHash = 
-            db.storeEF()
+        const userHash = res.locals.client.getId();
+        await db.db.transaction(async (trx) => {
+            const n = 1 + (await db.getNumberOfFilesFromUser(userHash));
+            const fileHash = helper.calculateFileHash(userHash, n);
+
+            // Store db then Write file EF
+            await db.storeEF(trx, userHash, fileHash, n);
+            const fileLocation = path.join(__uploadDir, fileHash);
+            fs.writeFileSync(fileLocation, EF);
+
+            // Store I
+            await Promise.map(I.split(' '), async (trapdoor) => {
+                db.storeTrapdoor(trx, fileHash, trapdoor);
+            }, { concurrency: 8 });
         });
-        console.log("transaction was committed");
-      } catch (e) {
-        console.log("transaction was rolled back");
-      }
-
-    db.transaction
-    console.log(EF);
-    console.log(I);
-
-    // const { EF, I } = await db.getFilesFromUser(id);
-    // const result = new ApiResult('');
-    next();
+        const result = new ApiResult('Done upload');
+        next(result);
+    } catch (e) {
+        const result = new ApiResult('', `Cannot insert to database: ${e.message}`, 500);
+        next(result);
+    }
 });
 
 module.exports = router;

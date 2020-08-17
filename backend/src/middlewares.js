@@ -16,7 +16,6 @@ function filterNonString(req, res, next) {
 function createClientObject(req, res, next) {
     const { ul, ur } = req.body;
     res.locals.client = new Client({ ul, ur });
-
     const kul = new RsaHandler(ul.n, ul.e);
     const kur = new RsaHandler(ur.n, ur.e);
     res.locals.kul = kul;

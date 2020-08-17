@@ -1,0 +1,42 @@
+#main-content {
+    padding: 30px;
+    padding-left: 50px;
+}
+
+#search-box {
+    text-align: center;
+    border-style: solid;
+    padding: 20px;
+}
+
+#files-content {
+    margin-top: 70px;
+}
+
+.navigator-button svg {
+    width: 40px;
+    height: 40px;
+}
+
+.navigator-field {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.search-bar {
+    padding: 3px;
+    display: inline;
+}
+
+.search-word {
+    margin-left: 50px;
+}
+
+.search-button {
+    margin-left: 50px !important;
+    color: red;
+}
+
+.input-number {
+    width: 60px;
+}

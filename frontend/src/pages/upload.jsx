@@ -3,11 +3,13 @@ import Menubar from '../components/menubar';
 import Uploadbar from '../components/uploadbar';
 import '../css/upload.css';
 
-const storageController = require('../controller/controller_storage');
-
 class Upload extends Component {
   constructor(props) {
     super(props);
+  }
+
+  redirectHome() {
+    this.props.history.push('/');
   }
 
   render() {
@@ -16,9 +18,13 @@ class Upload extends Component {
         <Menubar
           history={this.props.history}
         />
-
-        <br/>
-        <Uploadbar/>
+        
+        <div id="main-content">
+          <h1>Upload file</h1>
+          <Uploadbar
+            redirectHome={this.redirectHome.bind(this)}
+          />
+        </div>
 
       </div>
     );

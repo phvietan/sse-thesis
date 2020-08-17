@@ -6,7 +6,16 @@
 #logo {
   height: 30px;
   width: 40px;
-  margin-left: 40%;
+  padding-top: 15px;
+  cursor: pointer;
+  margin-left: 20%;
+
+}
+
+#logo-name {
+  height: 30px;
+  width: 200px;
+  margin-left: 30%;
   padding-top: 15px;
   cursor: pointer;
 }

@@ -1,0 +1,34 @@
+.file-item {
+    width: 300px !important;
+    word-wrap: break-word;
+}
+
+.container {
+    position: relative;
+}
+
+.container img {
+    width: 200px;
+    height: 200px;
+    z-index: -1;
+    display: inline-block;
+    margin-left: 13px;
+}
+
+.container .image-button {
+    position: absolute;
+    top: 40%;
+    left: 33%;
+}
+
+.image-button .delete-button:hover {
+    color: red !important;
+}
+
+.image-button .view-button:hover {
+    color: rgb(0, 204, 0) !important;
+}
+
+.file-id {
+    text-align: center;
+}

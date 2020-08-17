@@ -1,0 +1,12 @@
+#file {
+    visibility: hidden;
+}
+
+#upload-file-button {
+    cursor: pointer;
+    display: inline-block;
+}
+
+#upload-file-button:hover {
+    background-color: gray;
+}
