@@ -85,14 +85,6 @@ class DatabaseClass {
                   .where({ user_hash });
   }
 
-  async getNumberOfFilesFromUser(id) {
-    if (!helper.isString(id)) return 0;
-    const result = await this.db.from('encrypted_files')
-                                .count("id as cnt")
-                                .where("user_hash", "=", id);
-    return parseInt(result[0].cnt);
-  }
-
   async storeEF(trx, user_hash, file_hash, n) {
     return trx('encrypted_files').insert({
       user_hash,

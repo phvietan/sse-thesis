@@ -9,11 +9,11 @@ import { AiFillCaretRight, AiFillCaretLeft } from "react-icons/ai";
 
 const { getKeys } = require('../controller/controller_storage');
 const { transformWordToNode, getRange } = require('../controller/transformer');
-const { requestFiles, requestSearch, deleteFile } = require('../controller/protocol');
+const { initProgram, requestFiles, requestSearch, deleteFile } = require('../controller/protocol');
 
 // Check is node (i, j) left child
 function isLeftChild(i, j) {
-    return j % 2 == 1;
+    return j % 2 === 1;
 }
 
 // Get parent of node (i, j)
@@ -48,7 +48,7 @@ function findQueryNodes(L, R) {
 class Search extends Component {
     constructor(props) {
         super(props);
-
+        initProgram();
         const { aesKey, rsaKey1, rsaKey2 } = getKeys();
 
         this.state = {
@@ -108,18 +108,11 @@ class Search extends Component {
     }
 
     async submitSearch() {
-        let L = Math.max(parseInt(this.state.searchL), 1);
-        L = Math.min(L, this.state.files.length);
-
-        let R = Math.min(parseInt(this.state.searchR), this.state.files.length);
-        R = Math.max(R, 1);
-
-        L = Math.min(L, R);
-        await this.search(this.state.searchWord, L, R);
+        await this.search(this.state.searchWord, parseInt(this.state.searchL), parseInt(this.state.searchR));
     }
 
     async clickDelete(fileId) {
-        const response = await deleteFile({ file_id: fileId });
+        await deleteFile({ file_id: fileId });
         await this.updateFilesState();
       }
 
@@ -150,6 +143,10 @@ class Search extends Component {
 
                         <Button className="search-bar search-button" onClick={this.submitSearch.bind(this)}>
                             Search
+                        </Button>
+
+                        <Button className="search-bar search-button" onClick={this.updateFilesState.bind(this)}>
+                            Reset files
                         </Button>
                     </div>
                     

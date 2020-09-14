@@ -1,3 +1,4 @@
+const storage = require('../storage/storage');
 const { getPublicKeys } = require('./controller_storage');
 
 // Call to backend server (body does not need rsa keys)
@@ -50,10 +51,16 @@ async function requestSearch(body) {
     return request("POST", "/api/search", body)
 }
 
+function initProgram() {
+    const numFiles = storage.getFromStorage("numFiles") || 0;
+    storage.setToStorage("numFiles", numFiles);
+}
+
 module.exports = {
     viewFile,
     deleteFile,
     uploadFile,
     requestFiles,
     requestSearch,
+    initProgram,
 };

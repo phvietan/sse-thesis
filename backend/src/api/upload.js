@@ -8,12 +8,12 @@ const helper = require('../helper');
 const ApiResult = require('../apiresult');
 
 const router = express.Router();
+
 router.post('/', async (req, res, next) => {
-    const { EF, I } = req.body;
+    const { EF, I, n } = req.body;
     try {
         const userHash = res.locals.client.getId();
         await db.db.transaction(async (trx) => {
-            const n = 1 + (await db.getNumberOfFilesFromUser(userHash));
             const fileHash = helper.calculateFileHash(userHash, n);
 
             // Store db then Write file EF

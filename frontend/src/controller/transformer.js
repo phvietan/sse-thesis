@@ -24,6 +24,7 @@ function checkNodeContains(i, j, di, dj) {
 // Transform trapdoor t from node (i, j) to node (di, dj) 
 function transformT(t, i, j, di, dj, kul, kur) {
     while (i !== di || j !== dj) {
+        console.log({ i, j, di, dj });
         if (checkNodeContains(i, j, di, dj)) {
             const childLeft = 2 * (j - 1) + 1;
             const childRight =  2 * j;

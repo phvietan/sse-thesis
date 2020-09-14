@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import Menubar from '../components/menubar';
 import '../css/view.css';
 import { AESHandler } from '../crypto/aeshandler.js';
-import { Button } from '@material-ui/core';
 
 const util = require('../controller/util');
 const { getKeys } = require('../controller/controller_storage');
 
-const { viewFile, deleteFile } = require('../controller/protocol');
+const { initProgram, viewFile } = require('../controller/protocol');
 
 // This App here is for routing purposes
 class View extends Component {
   constructor(props) {
     super(props);
+    initProgram();
     this.fileHash = props.location.pathname.slice(6);
     
     this.state = {

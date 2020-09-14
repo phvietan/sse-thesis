@@ -3,15 +3,16 @@ import { AESHandler } from '../crypto/aeshandler.js';
 import '../css/uploadbar.css';
 
 const util = require('../controller/util');
+const storage = require('../storage/storage');
 const { transformBatch } = require('../controller/transformer');
 const { getKeys } = require('../controller/controller_storage');
-const { requestFiles, uploadFile } = require('../controller/protocol');
+const { uploadFile } = require('../controller/protocol');
 
-async function getNumberOfFile() {
-  const response = await requestFiles();
-  const { result: files } = response; 
-  return files.length;
-}
+// async function getNumberOfFile() {
+//   const response = await requestFiles();
+//   const { result: files } = response; 
+//   return files.length;
+// }
 
 class Uploadbar extends Component {
   constructor(props) {
@@ -46,7 +47,9 @@ class Uploadbar extends Component {
     const reader = new FileReader();
     reader.onload = async (e) => {
       const { EF, I } = this.state;
-      const response = await uploadFile({ EF, I });
+      const n = storage.getFromStorage("numFiles") + 1;
+      const response = await uploadFile({ EF, I, n });
+      storage.setToStorage("numFiles", n);
       console.log(response);
       // this.props.redirectHome();
     };
@@ -57,8 +60,7 @@ class Uploadbar extends Component {
     const fileInput = e.target.files[0];
     const fileName = fileInput.name;
 
-    const numFiles = await getNumberOfFile();
-    const n = numFiles + 1;
+    const n = storage.getFromStorage("numFiles") + 1;
 
     const reader = new FileReader();
     reader.onload = async (e) => {
@@ -66,7 +68,7 @@ class Uploadbar extends Component {
       const content = util.base64Decode(contentBase64);
 
       const { EF, I } = this.createEncryptedFiles(content, n);
-      this.setState({ 
+      this.setState({
         fileName,
         EF, I,
         preview_file: content,

@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import Menubar from '../components/menubar';
 import Uploadbar from '../components/uploadbar';
 import '../css/upload.css';
+const { initProgram } = require('../controller/protocol');
 
 class Upload extends Component {
   constructor(props) {
     super(props);
+    initProgram();
   }
 
   redirectHome() {

@@ -7,12 +7,13 @@ import { Button } from '@material-ui/core';
 
 import { AiFillCaretRight, AiFillCaretLeft } from "react-icons/ai";
 
-const { requestFiles, deleteFile } = require('../controller/protocol');
+const { initProgram, requestFiles, deleteFile } = require('../controller/protocol');
 
 // This App here is for routing purposes
 class Home extends Component {
   constructor(props) {
     super(props);
+    initProgram();
     this.state = {
       files: [],
       tab : 0,
@@ -38,7 +39,7 @@ class Home extends Component {
   }
 
   async clickDelete(fileId) {
-    const response = await deleteFile({ file_id: fileId });
+    await deleteFile({ file_id: fileId });
     await this.updateFilesState();
   }
 

@@ -18,7 +18,7 @@ export default class FileItem extends Component {
         return (
             <Grid item xs={2} className="file-item">
                 <div className="container">
-                    <img src="/file-icon.png" className="file-icon">
+                    <img src="/file-icon.png" alt="fileItem" className="file-icon">
                         
                     </img>
                     <div className="image-button">
