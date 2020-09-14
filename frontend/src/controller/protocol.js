@@ -12,7 +12,7 @@ async function request(method, path, body = {}) {
         };
     }
     try {
-        const url = `http://192.168.192.129:8000${path}`;
+        const url = `http://62.171.139.230:8000${path}`;
         const response = await fetch(url, { 
             method, 
             headers: {
