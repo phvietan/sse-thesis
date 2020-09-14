@@ -51,7 +51,7 @@ class Uploadbar extends Component {
       const response = await uploadFile({ EF, I, n });
       storage.setToStorage("numFiles", n);
       console.log(response);
-      // this.props.redirectHome();
+      this.props.redirectHome();
     };
     reader.readAsDataURL(fileInput.files[0]);
   }
